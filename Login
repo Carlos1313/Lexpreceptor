@@ -7,6 +7,7 @@ Public Class frmLogin
             frmPrincipal.Show()
             Me.Hide()
         Else
+            'este es el mensaje de error
             MessageBox.Show("Usuario y/o Contraseña invalidos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             txtUsuario.Text = ""
             txtContraseña.Text = ""

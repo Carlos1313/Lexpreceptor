@@ -1,0 +1,92 @@
+Imports System.IO
+
+Public Class frmLogin
+    Private Sub btnIngresar_Click(sender As Object, e As EventArgs) Handles btnIngresar.Click
+        Dim funcion As New FConsultasSql
+        If funcion.Login(txtUsuario.Text, txtContraseña.Text) Then
+            frmPrincipal.Show()
+            Me.Hide()
+        Else
+            MessageBox.Show("Usuario y/o Contraseña invalidos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            txtUsuario.Text = ""
+            txtContraseña.Text = ""
+        End If
+    End Sub
+
+    Private Sub btnLimpiar_Click(sender As Object, e As EventArgs) Handles btnLimpiar.Click
+        txtUsuario.Text = ""
+        txtContraseña.Text = ""
+    End Sub
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Me.Close()
+    End Sub
+
+    Private Sub frmLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim LexPreceptor As Boolean
+        Dim servidor As String
+        LexPreceptor = System.IO.Directory.Exists("c:\LexPreceptor")
+
+        If LexPreceptor Then
+            If My.Computer.FileSystem.FileExists("C:\LexPreceptor\cnn.txt") Then
+                Dim leer As New StreamReader("C:\LexPreceptor\cnn.txt")
+                Dim cnn As String = ""
+                While leer.Peek <> -1
+                    cnn = cnn + leer.ReadLine
+                End While
+                leer.Close()
+                If cnn <> "" Then
+
+                Else
+                    Dim escribir As New StreamWriter("C:\LexPreceptor\cnn.txt")
+                    servidor = InputBox("El Nombre del servidor no esta dado de alta porfavor realizar las siguientes instrucciones" & vbCr & "1.-Abrir SQL Server Management studio" & vbCr & "2.-Copiar el texto del campo nombre del servidor" & vbCr & "3.-Pergarlo en el campo detexto de esta ventana" & vbCr & "4.-Precione Boton aceptar", "LexPreceptor")
+                    escribir.WriteLine(servidor)
+                    escribir.Close()
+                End If
+            Else
+                Dim escribir As New StreamWriter("C:\LexPreceptor\cnn.txt")
+                servidor = InputBox("El Nombre del servidor no esta dado de alta porfavor realizar las siguientes instrucciones" & vbCr & "1.-Abrir SQL Server Management studio" & vbCr & "2.-Copiar el texto del campo nombre del servidor" & vbCr & "3.-Pergarlo en el campo detexto de esta ventana" & vbCr & "4.-Precione Boton aceptar", "LexPreceptor")
+                escribir.WriteLine(servidor)
+                escribir.Close()
+            End If
+        Else
+            MessageBox.Show("Se Crearan las carpetas necesarias para el sistema", "LexPreceptor", MessageBoxButtons.OK)
+            Carpetas()
+            Dim escribir As New StreamWriter("C:\LexPreceptor\cnn.txt")
+            servidor = InputBox("El Nombre del servidor no esta dado de alta porfavor realizar las siguientes instrucciones" & vbCr & "1.-Abrir SQL Server Management studio" & vbCr & "2.-Copiar el texto del campo nombre del servidor" & vbCr & "3.-Pergarlo en el campo detexto de esta ventana" & vbCr & "4.-Precione Boton aceptar", "LexPreceptor")
+            escribir.WriteLine(servidor)
+            escribir.Close()
+        End If
+    End Sub
+    Private Sub Carpetas()
+        Dim LexPreceptor, Expedientes, DocumentosRefrencia, Pendientes As Boolean
+        LexPreceptor = System.IO.Directory.Exists("c:\LexPreceptor")
+        Expedientes = System.IO.Directory.Exists("c:\LexPreceptor\Expedientes")
+        DocumentosRefrencia = System.IO.Directory.Exists("C:\LexPreceptor\Documentos de Referencia")
+        Pendientes = System.IO.Directory.Exists("C:\LexPreceptor\Personal")
+        Try
+            If LexPreceptor Then
+
+            Else
+                System.IO.Directory.CreateDirectory("c:\LexPreceptor")
+            End If
+            If Expedientes Then
+
+            Else
+                System.IO.Directory.CreateDirectory("c:\LexPreceptor\Expedientes")
+            End If
+            If LexPreceptor Then
+
+            Else
+                System.IO.Directory.CreateDirectory("C:\LexPreceptor\Documentos de Referencia")
+            End If
+            If LexPreceptor Then
+
+            Else
+                System.IO.Directory.CreateDirectory("C:\LexPreceptor\Personal ")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+End Class

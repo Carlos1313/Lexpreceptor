@@ -3,15 +3,18 @@ Imports System.IO
 Public Class frmLogin
     Private Sub btnIngresar_Click(sender As Object, e As EventArgs) Handles btnIngresar.Click
         Dim funcion As New FConsultasSql
-        If funcion.Login(txtUsuario.Text, txtContraseña.Text) Then
+        If (funcion.Login(txtUsuario.Text, txtContraseña.Text)) 
+        {
             frmPrincipal.Show()
             Me.Hide()
+         } 
         Else
+        {
             'este es el mensaje de error
             MessageBox.Show("Usuario y/o Contraseña invalidos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             txtUsuario.Text = ""
             txtContraseña.Text = ""
-        End If
+       }
     End Sub
 
     Private Sub btnLimpiar_Click(sender As Object, e As EventArgs) Handles btnLimpiar.Click
